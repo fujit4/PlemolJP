@@ -34,7 +34,7 @@ jobs:
       #   run: python .\fonttools_script.py
 
       - name: Run fonttools script
-        run: powershell make.ps1
+        run: powershell .\make.ps1
 
       - name: Zip build folder
         run: Compress-Archive -Path release_files\* -DestinationPath fontbuild.zip
