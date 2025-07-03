@@ -11,29 +11,18 @@ Remove-Item -Path .\build -Recurse -Force
 
 # 並列処理内で、処理が重いNerd Fontsのビルドを優先して処理する
 $option_and_output_folder = @(
-    @("--console --nerd-font", "ConsoleNF-"), # ビルド コンソール用 通常版 + Nerd Fonts
-    @("--console --35 --nerd-font", "35ConsoleNF-"), # ビルド コンソール用 3:5幅版 + Nerd Fonts
-    @("", "-"), # ビルド 通常版
-    @("--35", "35-"), # ビルド 3:5幅版
-    @("--console", "Console-"), # ビルド コンソール用 通常版
-    @("--console --35", "35Console-"), # ビルド コンソール用 1:2幅版
-    @("--hidden-zenkaku-space ", "HS-"), # ビルド 通常版 全角スペース不可視
-    @("--hidden-zenkaku-space --35", "35HS-"), # ビルド 3:5幅版 全角スペース不可視
-    @("--hidden-zenkaku-space --console", "ConsoleHS-"), # ビルド コンソール用 通常版 全角スペース不可視
-    @("--hidden-zenkaku-space --console --35", "35ConsoleHS-") # ビルド コンソール用 1:2幅版 全角スペース不可視
+    @("--hidden-zenkaku-space --nerd-font  --boxhf ", "BoxHFNFHS-"), # ビルド 罫線半角版全角スペース不可視+Nerd
 )
 
 $option_and_output_folder | Foreach-Object -ThrottleLimit 4 -Parallel {
     Write-Host "fontforge script start. option: `"$($_[0])`""
-    Invoke-Expression "& `"C:\Program Files (x86)\FontForgeBuilds\bin\ffpython.exe`" .\fontforge_script.py --do-not-delete-build-dir $($_[0])" `
+    Invoke-Expression "& `"C:\FontForgeBuilds\bin\ffpython.exe`" .\fontforge_script.py --do-not-delete-build-dir $($_[0])" `
         && Write-Host "fonttools script start. option: `"$($_[1])`"" `
         && python fonttools_script.py $_[1]
 }
 
 $move_file_src_dest = @(
-    @("PlemolJP*NF*-*.ttf", "PlemolJP_NF_$version", "NF"),
-    @("PlemolJP*HS*-*.ttf", "PlemolJP_HS_$version", "HS"),
-    @("PlemolJP*-*.ttf", "PlemolJP_$version", "")
+    @("PlemolJP*BoxHFNFHS*-*.ttf", "PlemolJP_NF_$version", "BoxHFNFHS"),
 )
 
 $timestamp = Get-Date -Format "yyyyMMddHHmmss"
@@ -49,10 +38,7 @@ $move_file_src_dest | Foreach-Object {
         $variant = "_$($_[2])"
     }
     @(
-        @("*35Console*.ttf", "PlemolJP35Console$($variant)"),
-        @("*Console*.ttf", "PlemolJPConsole$($variant)"),
-        @("*35*.ttf", "PlemolJP35$($variant)"),
-        @("*.ttf", "PlemolJP$($variant)")
+        @("*BoxHFNFHS*.ttf", "PlemolJPBoxHFNFHS($variant)")
     ) | Foreach-Object {
         $individual_folder_path = "$folder_path\$($_[1])"
         # ファイル件数が0件の場合はフォルダを作成しない
