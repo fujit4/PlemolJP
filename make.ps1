@@ -11,7 +11,7 @@ Remove-Item -Path .\build -Recurse -Force
 
 # 並列処理内で、処理が重いNerd Fontsのビルドを優先して処理する
 $option_and_output_folder = @(
-    @("--hidden-zenkaku-space --nerd-font  --boxhf ", "BoxHFNFHS-"), # ビルド 罫線半角版全角スペース不可視+Nerd
+    @("--hidden-zenkaku-space --nerd-font  --boxhf ", "BoxHFNFHS-") # ビルド 罫線半角版全角スペース不可視+Nerd
 )
 
 $option_and_output_folder | Foreach-Object -ThrottleLimit 4 -Parallel {
