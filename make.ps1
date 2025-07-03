@@ -22,7 +22,7 @@ $option_and_output_folder | Foreach-Object -ThrottleLimit 4 -Parallel {
 }
 
 $move_file_src_dest = @(
-    @("PlemolJP*BoxHFNFHS*-*.ttf", "PlemolJP_NF_$version", "BoxHFNFHS"),
+    @("PlemolJP*BoxHFNFHS*-*.ttf", "PlemolJP_NF_$version", "BoxHFNFHS")
 )
 
 $timestamp = Get-Date -Format "yyyyMMddHHmmss"
