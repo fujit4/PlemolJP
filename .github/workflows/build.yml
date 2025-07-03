@@ -26,15 +26,18 @@ jobs:
         run: |
           Expand-Archive -Path .\FontForgeBuilds.zip -DestinationPath C:\FontForge
 
-      - name: Run fontforge script
-        run: |
-          & "C:\FontForge\FontForgeBuilds\bin\ffpython.exe" .\fontforge_script.py --boxhf --nerd-font --hidden-zenkaku-space
+      # - name: Run fontforge script
+      #   run: |
+      #     & "C:\FontForge\FontForgeBuilds\bin\ffpython.exe" .\fontforge_script.py --boxhf --nerd-font --hidden-zenkaku-space
+
+      # - name: Run fonttools script
+      #   run: python .\fonttools_script.py
 
       - name: Run fonttools script
-        run: python .\fonttools_script.py
+        run: powershell make.ps1
 
       - name: Zip build folder
-        run: Compress-Archive -Path build\* -DestinationPath fontbuild.zip
+        run: Compress-Archive -Path release_files\* -DestinationPath fontbuild.zip
 
       - name: Upload to existing GitHub Release
         if: startsWith(github.ref, 'refs/tags/')
