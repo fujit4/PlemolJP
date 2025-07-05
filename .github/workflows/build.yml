@@ -28,7 +28,7 @@ jobs:
 
       - name: Run fontforge script
         run: |
-          & "C:\FontForge\FontForgeBuilds\bin\ffpython.exe" .\fontforge_script.py --boxhf --nerd-font --hidden-zenkaku-space
+          & "C:\FontForge\FontForgeBuilds\bin\ffpython.exe" .\fontforge_script.py --nerd-font --hidden-zenkaku-space
 
       - name: Run fonttools script
         run: python .\fonttools_script.py
